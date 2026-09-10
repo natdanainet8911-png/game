@@ -3,174 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quest of the Scholar - ปราชญ์น้อยกู้หมู่บ้าน</title>
+    <title>Quest of the Scholar - ปราชญ์น้อยกู้หมู่บ้าน (ม.1 - ม.4)</title>
     <link href="https://fonts.googleapis.com/css2?family=Chonburi&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #2b2b2b;
+            background-color: #1a1a1a;
             color: #f1f1f1;
             font-family: 'Prompt', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            overflow: hidden;
         }
         #game-container {
-            width: 800px;
-            height: 600px;
-            background-color: #1a1a1a;
-            border: 4px solid #4a3b32;
+            width: 850px;
+            height: 650px;
+            background-color: #222;
+            border: 4px solid #5c4033;
             border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.9);
             display: flex;
             flex-direction: column;
             position: relative;
+            overflow: hidden;
         }
         #top-bar {
-            height: 40px;
-            background-color: #2c211a;
-            border-bottom: 2px solid #4a3b32;
+            height: 45px;
+            background-color: #3a2618;
+            border-bottom: 3px solid #5c4033;
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 0 20px;
             font-size: 16px;
             font-weight: 600;
-            color: #e2c08d;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
+            color: #f3e5ab;
         }
         #scene {
             flex: 1;
-            background-color: #5c94fc;
             position: relative;
-            background-size: cover;
-            background-position: center;
-            transition: background 0.5s ease-in-out;
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: background 0.5s ease-in-out;
         }
-        /* Scene Backgrounds using CSS gradients/colors */
-        .bg-title { background: linear-gradient(135deg, #1b263b, #415a77); }
-        .bg-village { background: linear-gradient(to bottom, #87CEEB 50%, #7CFC00 50%); }
-        .bg-shop { background: linear-gradient(to bottom, #8B4513 40%, #A0522D 40%, #cd853f 100%); }
-        .bg-farm { background: linear-gradient(to bottom, #87CEEB 40%, #556B2F 40%, #6B8E23 100%); }
+        /* Gradient Backgrounds for different scenes */
+        .bg-title { background: linear-gradient(135deg, #1e3c72, #2a5298); }
+        .bg-hub { background: linear-gradient(to bottom, #70e1f5, #ffd194); }
+        .bg-m1-sci { background: linear-gradient(to bottom, #8A2387, #E94057, #F27121); }
+        .bg-m1-math { background: linear-gradient(to bottom, #56ab2f, #a8e063); }
+        .bg-m2-forge { background: linear-gradient(to bottom, #333333, #dd1818); }
+        .bg-m3-astro { background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364); }
+        .bg-m4-castle { background: linear-gradient(to bottom, #4b6cb7, #182848); }
 
         #title-text {
             text-align: center;
             color: #ffd700;
             font-family: 'Chonburi', serif;
-            font-size: 48px;
-            text-shadow: 3px 3px 0 #8b4513, -1px -1px 0 #8b4513, 1px -1px 0 #8b4513, -1px 1px 0 #8b4513, 1px 1px 0 #8b4513;
-            animation: bounce 2s infinite ease-in-out;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            font-size: 42px;
+            text-shadow: 3px 3px 0 #5c4033;
         }
 
         #sprites {
             position: absolute;
-            bottom: 20px;
+            bottom: 10px;
             width: 100%;
             display: flex;
             justify-content: space-between;
-            padding: 0 50px;
+            padding: 0 60px;
             box-sizing: border-box;
             pointer-events: none;
         }
         .sprite {
-            font-size: 120px;
-            filter: drop-shadow(0px 10px 5px rgba(0,0,0,0.5));
-            transition: opacity 0.3s;
+            font-size: 110px;
+            filter: drop-shadow(0px 8px 4px rgba(0,0,0,0.6));
         }
         #player-sprite { opacity: 0; }
         #npc-sprite { opacity: 0; transform: scaleX(-1); }
 
         #dialog-box {
-            height: 200px;
-            background-color: #1c1c1c;
-            border-top: 4px solid #e2c08d;
-            padding: 20px 30px;
+            height: 220px;
+            background-color: #1a1a1a;
+            border-top: 4px solid #d4af37;
+            padding: 20px 25px;
             box-sizing: border-box;
             position: relative;
-            border-bottom-left-radius: 8px;
-            border-bottom-right-radius: 8px;
         }
         #speaker-name {
-            background-color: #e2c08d;
-            color: #1c1c1c;
+            background-color: #d4af37;
+            color: #1a1a1a;
             display: inline-block;
-            padding: 5px 15px;
+            padding: 4px 14px;
             font-weight: 600;
             border-radius: 4px;
             position: absolute;
-            top: -18px;
+            top: -16px;
             left: 20px;
-            font-size: 18px;
-            border: 2px solid #4a3b32;
+            font-size: 16px;
         }
         #dialog-text {
-            margin-top: 15px;
-            font-size: 20px;
+            margin-top: 10px;
+            font-size: 18px;
             line-height: 1.5;
             color: #f1f1f1;
         }
         #choices {
             position: absolute;
-            bottom: 20px;
+            bottom: 15px;
             right: 20px;
             display: flex;
-            gap: 15px;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            max-width: 600px;
         }
         button {
-            background-color: #3e2723;
-            color: #e2c08d;
-            border: 2px solid #e2c08d;
-            padding: 10px 20px;
+            background-color: #4a2c11;
+            color: #f3e5ab;
+            border: 2px solid #d4af37;
+            padding: 8px 16px;
             font-family: 'Prompt', sans-serif;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            border-radius: 8px;
+            border-radius: 6px;
             transition: all 0.2s;
-            box-shadow: 0 4px 0 #2c1a16;
         }
         button:hover {
-            background-color: #5d4037;
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 #2c1a16;
-        }
-        button:active {
-            transform: translateY(4px);
-            box-shadow: 0 0 0 #2c1a16;
+            background-color: #6a401a;
+            transform: translateY(-2px);
         }
         input[type="number"] {
-            background-color: #2b2b2b;
-            color: #e2c08d;
-            border: 2px solid #e2c08d;
-            padding: 10px;
+            background-color: #333;
+            color: #ffd700;
+            border: 2px solid #d4af37;
+            padding: 8px;
             font-family: 'Prompt', sans-serif;
             font-size: 18px;
-            border-radius: 8px;
-            width: 150px;
+            border-radius: 6px;
+            width: 140px;
             text-align: center;
         }
-        input[type="number"]:focus {
-            outline: none;
-            border-color: #ffd700;
-        }
-        .highlight {
-            color: #ffd700;
+        .badge {
+            background: #d4af37;
+            color: #000;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
             font-weight: bold;
         }
-        .math-text {
+        .formula {
+            background: rgba(255, 215, 0, 0.15);
+            border-left: 4px solid #ffd700;
+            padding: 6px 12px;
+            margin: 6px 0;
             color: #87cefa;
-            font-style: italic;
+            font-size: 16px;
         }
     </style>
 </head>
@@ -178,8 +167,8 @@
 
 <div id="game-container">
     <div id="top-bar">
-        <span>📍 <span id="location-text">หน้าจอหลัก</span></span>
-        <span>⭐ เลเวล: <span id="lvl-val">1</span> | 💎 EXP: <span id="exp-val">0</span>/100</span>
+        <span>📍 <span id="location-text">หน้าแรก</span></span>
+        <span>⭐ เลเวลผู้ใช้ปัญญา: <span id="lvl-val">1</span> | 💎 EXP: <span id="exp-val">0</span>/100</span>
     </div>
     
     <div id="scene" class="bg-title">
@@ -189,25 +178,23 @@
         </div>
         <div id="title-text">
             Quest of the Scholar<br>
-            <span style="font-size: 28px; color: #fff; text-shadow: 2px 2px 0 #000;">ปราชญ์น้อยกู้หมู่บ้าน</span>
+            <span style="font-size: 24px; color: #fff;">ปราชญ์น้อยกู้หมู่บ้าน (ม.1 - ม.4)</span>
         </div>
     </div>
     
     <div id="dialog-box">
         <div id="speaker-name">ระบบ</div>
-        <div id="dialog-text">ยินดีต้อนรับสู่โลกแฟนตาซี! ที่นี่ความรู้คือพลังเวทมนตร์ของคุณ</div>
+        <div id="dialog-text">ยินดีต้อนรับสู่โลกที่วิทยากับคณิตศาสตร์คือเวทมนตร์! เลือกบทเรียนเพื่อเริ่มกู้หมู่บ้าน</div>
         <div id="choices">
-            <button onclick="startGame()">▶ เริ่มการผจญภัย</button>
+            <button onclick="startGame()">▶ เริ่มต้นการเดินทาง</button>
         </div>
     </div>
 </div>
 
 <script>
-    // --- Game State ---
     let exp = 0;
     let level = 1;
 
-    // --- UI Elements ---
     const ui = {
         scene: document.getElementById('scene'),
         title: document.getElementById('title-text'),
@@ -221,20 +208,19 @@
         loc: document.getElementById('location-text')
     };
 
-    // --- Core Functions ---
-    function updateStats(gainedExp) {
-        exp += gainedExp;
-        if(exp >= 100) {
+    function addExp(amount) {
+        exp += amount;
+        if (exp >= 100) {
             level++;
             exp -= 100;
-            alert(`🎉 ยินดีด้วย! เลเวลอัปเป็นระดับ ${level}`);
+            alert(`🎉 ปรบมือ! ระดับปัญญาของคุณอัปเกรดเป็น Level ${level} แล้ว!`);
         }
         ui.exp.innerText = exp;
         ui.lvl.innerText = level;
     }
 
-    function setScene(locName, bgClass, showPlayer, npcEmoji) {
-        ui.loc.innerText = locName;
+    function setScene(loc, bgClass, showPlayer, npcEmoji) {
+        ui.loc.innerText = loc;
         ui.scene.className = bgClass;
         ui.title.style.display = 'none';
         ui.player.style.opacity = showPlayer ? 1 : 0;
@@ -248,134 +234,172 @@
 
     function setDialog(speaker, text, buttonsHtml) {
         ui.speaker.innerText = speaker;
-        // Simple typewriter effect simulation (optional, kept instant for simplicity)
-        ui.text.innerHTML = text; 
+        ui.text.innerHTML = text;
         ui.choices.innerHTML = buttonsHtml;
     }
 
-    function startGame() {
-        villageHub();
-    }
+    function startGame() { hub(); }
 
-    // --- HUB: Village Square ---
-    function villageHub() {
-        setScene('จัตุรัสหมู่บ้านโอ๊ควูด', 'bg-village', true, null);
-        setDialog('ลีโอ (คุณ)', 'ถึงแล้ว... หมู่บ้านโอ๊ควูด ดูเหมือนชาวบ้านกำลังวุ่นวายกับปัญหาในชีวิตประจำวันนะ ฉันควรใช้ความรู้ไปช่วยใครก่อนดี?',
-            `<button onclick="merchantQuest()">💰 ไปหาพ่อค้า (วิทย์ ม.1)</button>
-             <button onclick="farmerQuest()">🌾 ไปหาลุงชาวนา (คณิต ม.1)</button>`
+    // --- MAIN HUB ---
+    function hub() {
+        setScene('แผนที่หมู่บ้านโอ๊ควูด', 'bg-hub', true, null);
+        setDialog('ลีโอ (คุณ)', 'เลือกภารกิจช่วยเหลือชาวบ้านตามระดับชั้นวิชาที่ต้องการฝึกฝน:',
+            `<button onclick="qM1_Sci()"><span class="badge">ม.1</span> 💰 พ่อค้า (วิทย์: ความหนาแน่น)</button>
+             <button onclick="qM1_Math()"><span class="badge">ม.1</span> 🌾 ชาวนา (คณิต: เส้นรอบรูป)</button>
+             <button onclick="qM2_Forge()"><span class="badge">ม.2</span> 🔨 ช่างตีเหล็ก (วิทย์: โมเมนต์ & พีทาโกรัส)</button>
+             <button onclick="qM3_Astro()"><span class="badge">ม.3</span> 🔭 นักปราชญ์หญิง (วิทย์: เลนส์ & ตรีโกณ)</button>
+             <button onclick="qM4_Castle()"><span class="badge">ม.4</span> 🏰 ป้อมปราการ (วิทย์: โปรเจกไทล์ & พาราโบลา)</button>`
         );
     }
 
     // ==========================================
-    // QUEST 1: พ่อค้ามั่งคั่ง (วิทยาศาสตร์ - ความหนาแน่น)
+    // 🟢 ม.1 QUESTS
     // ==========================================
-    function merchantQuest() {
-        setScene('ร้านค้าของเศรษฐี', 'bg-shop', true, '🫅');
-        setDialog('พ่อค้ามั่งคั่ง', 'โอ้! ท่านบัณฑิต ข้ากำลังปวดหัวเลย ข้าเพิ่งซื้อ <span class="highlight">มงกุฎทองคำ</span> มาในราคาแพงหูฉี่ แต่ข้ารู้สึกว่ามันเบาแปลกๆ ท่านช่วยใช้ "วิทยาศาสตร์" ตรวจสอบให้ข้าที!',
-            `<button onclick="merchantStep1()">🔍 ตรวจสอบมงกุฎ</button>
-             <button onclick="villageHub()">↩ กลับหมู่บ้าน</button>`
+    function qM1_Sci() {
+        setScene('ร้านค้ามั่งคั่ง', 'bg-m1-sci', true, '🫅');
+        setDialog('พ่อค้า', 'ช่วยด้วย! ข้าเพิ่งซื้อ <b style="color:#ffd700">มงกุฎ</b> มา แต่น่าสงสัยว่าทำไมมันเบาแปลกๆ มันทำจากทองแท้รึเปล่า?',
+            `<button onclick="qM1_Sci_2()">🔍 ใช้หลักการอาร์คิมิดีสตรวจมงกุฎ</button>
+             <button onclick="hub()">↩ กลับแผนที่</button>`
         );
     }
-
-    function merchantStep1() {
-        setDialog('ลีโอ', 'สบายมากครับ เราสามารถใช้หลักการของ <b>อาร์คิมิดีส</b> ในการหาความหนาแน่นได้ <br><span class="math-text">สูตร: ความหนาแน่น (D) = มวล (M) ÷ ปริมาตร (V)</span><br>ก่อนอื่นเราต้องชั่งน้ำหนักมงกุฎก่อน!',
-            `<button onclick="merchantStep2()">⚖️ ชั่งน้ำหนัก</button>`
+    function qM1_Sci_2() {
+        setDialog('ลีโอ', '<div class="formula">สูตร: ความหนาแน่น (D) = มวล (M) ÷ ปริมาตร (V)</div>ชั่งมวลได้ <b>450 กรัม</b> และวัดปริมาตรจากการแทนที่น้ำได้ <b>50 ลูกบาศก์ซม.</b><br>มงกุฎนี้มีความหนาแน่นเท่าไหร่? (ทองแท้ = 19.3 g/cm³)',
+            `<input type="number" id="ans-m1s">
+             <button onclick="checkM1Sci()">ตอบ</button>`
         );
     }
-
-    function merchantStep2() {
-        setDialog('ระบบ', 'คุณนำมงกุฎไปชั่งบนตาชั่งดิจิทัลของพ่อค้า... <br>⚖️ <b>มวลที่ได้คือ: <span class="highlight">450 กรัม</span></b>',
-            `<button onclick="merchantStep3()">💧 หาปริมาตรต่อ</button>`
-        );
-    }
-
-    function merchantStep3() {
-        setDialog('ลีโอ', 'ต่อไป เราจะนำมงกุฎไปหย่อนลงในถังน้ำ (ถ้วยยูเรก้า) น้ำที่ล้นออกมาจะเท่ากับปริมาตรของมงกุฎพอดี!',
-            `<button onclick="merchantStep4()">🌊 หย่อนมงกุฎลงน้ำ</button>`
-        );
-    }
-
-    function merchantStep4() {
-        setDialog('ระบบ', 'คุณหย่อนมงกุฎลงไป น้ำล้นออกมาใส่กระบอกตวง... <br>🧪 <b>ปริมาตรที่วัดได้คือ: <span class="highlight">50 ลูกบาศก์เซนติเมตร (cm³)</span></b>',
-            `<button onclick="merchantStep5()">🧮 คำนวณเลย</button>`
-        );
-    }
-
-    function merchantStep5() {
-        setDialog('ลีโอ', 'ได้เวลาใช้คณิตศาสตร์แล้ว! <br><span class="math-text">มวล = 450 g, ปริมาตร = 50 cm³</span><br>ความหนาแน่นคือเท่าไหร่? (เอา 450 หารด้วย 50)',
-            `<input type="number" id="ans-density" placeholder="ใส่คำตอบ (ตัวเลข)">
-             <button onclick="checkDensity()">✅ ตอบ</button>`
-        );
-    }
-
-    function checkDensity() {
-        let ans = document.getElementById('ans-density').value;
-        if (ans == 9) {
-            setDialog('ลีโอ', 'ถูกต้อง! ความหนาแน่นคือ <span class="highlight">9 g/cm³</span> <br>แต่ทองคำแท้ต้องมีความหนาแน่นประมาณ <b>19.3 g/cm³</b>... พ่อค้าครับ มงกุฎนี้ปลอมแน่นอน!',
-                `<button onclick="merchantWin()">แจ้งพ่อค้า</button>`
+    function checkM1Sci() {
+        let v = document.getElementById('ans-m1s').value;
+        if(v == 9) {
+            addExp(50);
+            setDialog('ลีโอ', 'ความหนาแน่นคือ <b>9 g/cm³</b> ซึ่งน้อยกว่าทองคำแท้มาก! นี่คือทองผสมโลหะอื่น พ่อค้าโดนหลอกแล้วครับ!',
+                `<button onclick="hub()">รับรางวัล & กลับแผนที่</button>`
             );
         } else {
-            setDialog('ลีโอ', 'เอ๊ะ... คำนวณผิดหรือเปล่านะ ลองหารดูใหม่ <span class="math-text">450 ÷ 50</span> ได้เท่าไหร่นะ? ตัดศูนย์ออกแล้วท่องสูตรคูณแม่ 5 ดูสิ',
-                `<button onclick="merchantStep5()">🔄 ลองใหม่</button>`
-            );
+            alert('คำนวณใหม่นะ: เอา 450 หารด้วย 50 ได้เท่าไหร่?');
         }
     }
 
-    function merchantWin() {
-        updateStats(50);
-        setDialog('พ่อค้ามั่งคั่ง', 'ของปลอมงั้นรึ! ขอบคุณท่านมากที่ช่วยข้าไว้ ข้าเกือบจะเสียรู้พวกโจรแล้วสิ รับรางวัลนี้ไปเลย!',
-            `<button onclick="villageHub()">↩ กลับหมู่บ้าน</button>`
+    function qM1_Math() {
+        setScene('ทุ่งนาโอ๊ควูด', 'bg-m1-math', true, '🧑‍🌾');
+        setDialog('ลุงชาวนา', 'ลุงต้องการซื้อไม้มาทำรั้วล้อมแปลงผักสี่เหลี่ยมผืนผ้า กว้าง <b>6 เมตร</b> และ ยาว <b>8 เมตร</b> ต้องใช้รั้วยาวกี่เมตร?',
+            `<div class="formula">สูตรความยาวรอบรูป = (กว้าง + ยาว) × 2</div>
+             <input type="number" id="ans-m1m">
+             <button onclick="checkM1Math()">ตอบ</button>
+             <button onclick="hub()">↩ กลับ</button>`
         );
+    }
+    function checkM1Math() {
+        let v = document.getElementById('ans-m1m').value;
+        if(v == 28) {
+            addExp(50);
+            setDialog('ลุงชาวนา', 'ถูกต้อง! (6+8)×2 = <b>28 เมตร</b> ขอบใจมากพ่อหนุ่ม!', `<button onclick="hub()">กลับแผนที่</button>`);
+        } else { alert('ลองคิดใหม่: (6 + 8) = 14 จากนั้นเอา 14 × 2 ได้เท่าไหร่?'); }
     }
 
     // ==========================================
-    // QUEST 2: ลุงชาวนา (คณิตศาสตร์ - ความยาวรอบรูป)
+    // 🔵 ม.2 QUESTS
     // ==========================================
-    function farmerQuest() {
-        setScene('ทุ่งนาโอ๊ควูด', 'bg-farm', true, '🧑‍🌾');
-        setDialog('ลุงชาวนา', 'พ่อหนุ่ม! ลุงกำลังจะล้อมรั้วแปลงผักกะหล่ำปลีใหม่ แต่ลุงคำนวณไม่ถูกว่าต้องซื้อรั้วไม้มาให้ยาวเท่าไหร่ เอ็งช่วยลุงทีได้ไหม?',
-            `<button onclick="farmerStep1()">📐 ช่วยลุงคำนวณ</button>
-             <button onclick="villageHub()">↩ กลับหมู่บ้าน</button>`
+    function qM2_Forge() {
+        setScene('โรงตีเหล็ก', 'bg-m2-forge', true, '🧔‍♂️');
+        setDialog('ช่างตีเหล็ก', 'ข้าต้องการยกหินแร่หนัก <b>600 นิวตัน</b> โดยใช้คานงัด จุดหมุนอยู่ห่างหิน <b>1 เมตร</b> แต่ข้ามีแรงกดแค่ <b>200 นิวตัน</b> ข้าต้องต่อด้ามคานฝั่งข้าให้ยาวห่างจุดหมุนกี่เมตร?',
+            `<div class="formula">หลักการโมเมนต์: แรงฝั่งหิน × ระยะ = แรงฝั่งช่าง × ระยะฝั่งช่าง<br>(600 N × 1 m) = (200 N × ? m)</div>
+             <input type="number" id="ans-m2s">
+             <button onclick="checkM2Sci()">ตอบ (เมตร)</button>
+             <button onclick="qM2_Math()">➡️ ไปทำเควสพีทาโกรัสต่อ</button>`
         );
     }
-
-    function farmerStep1() {
-        setDialog('ลีโอ', 'ได้เลยครับลุง แปลงผักของลุงเป็นรูปเรขาคณิตแบบไหน และมีความกว้างความยาวเท่าไหร่ครับ?',
-            `<button onclick="farmerStep2()">ฟังลุงชาวนา</button>`
-        );
+    function checkM2Sci() {
+        let v = document.getElementById('ans-m2s').value;
+        if(v == 3) {
+            addExp(50);
+            setDialog('ช่างตีเหล็ก', 'ยอดเยี่ยม! ต้องใช้คานยาว <b>3 เมตร</b> ข้าผ่อนแรงยกหินแร่ออกมาได้สบายเลย!', `<button onclick="hub()">กลับแผนที่</button>`);
+        } else { alert('ลองคำนวณ: 600 หารด้วย 200 ได้เท่าไหร่?'); }
     }
 
-    function farmerStep2() {
-        setDialog('ลุงชาวนา', 'แปลงผักลุงเป็นรูป <span class="highlight">สี่เหลี่ยมผืนผ้า</span> น่ะ มี <b>ความกว้าง 6 เมตร</b> และ <b>ความยาว 8 เมตร</b> ลุงต้องซื้อรั้วกี่เมตรถึงจะล้อมครบ 4 ด้านพอดีล่ะ?',
-            `<button onclick="farmerStep3()">🧮 คำนวณความยาวรอบรูป</button>`
+    function qM2_Math() {
+        setDialog('ช่างตีเหล็ก', 'เควสคณิต ม.2: ข้าต้องการสร้างบันไดพาดขึ้นหลังคาโรงช่าง กำแพงสูง <b>4 เมตร</b> วางฐานบันไดห่างกำแพง <b>3 เมตร</b> บันไดต้องยาวกี่เมตร?',
+            `<div class="formula">ทฤษฎีบทพีทาโกรัส: c² = a² + b² (c² = 3² + 4² = 9 + 16 = 25)</div>
+             <input type="number" id="ans-m2m">
+             <button onclick="checkM2Math()">ตอบ (เมตร)</button>`
         );
     }
-
-    function farmerStep3() {
-        setDialog('ลีโอ', 'การหาความยาวรั้ว คือการหา "ความยาวรอบรูป" <br><span class="math-text">สูตร: (กว้าง + ยาว) × 2</span><br>กว้าง = 6, ยาว = 8 ดังนั้นต้องใช้รั้วยาวเท่าไหร่?',
-            `<input type="number" id="ans-perimeter" placeholder="ใส่คำตอบ (ตัวเลข)">
-             <button onclick="checkPerimeter()">✅ ตอบ</button>`
-        );
+    function checkM2Math() {
+        let v = document.getElementById('ans-m2m').value;
+        if(v == 5) {
+            addExp(50);
+            setDialog('ช่างตีเหล็ก', 'ถูกต้อง! ถอนรากที่สองของ 25 ได้ <b>5 เมตร</b> บันไดพาดได้พอดีเลย!', `<button onclick="hub()">กลับแผนที่</button>`);
+        } else { alert('ตัวเลขอะไรที่คูณตัวเองแล้วได้ 25?'); }
     }
 
-    function checkPerimeter() {
-        let ans = document.getElementById('ans-perimeter').value;
-        if (ans == 28) {
-            setDialog('ลีโอ', 'ถูกต้องครับลุง! (6 + 8) = 14 แล้วคูณ 2 จะได้ <span class="highlight">28 เมตร</span> ครับ ลุงซื้อไม้มายาว 28 เมตรได้เลย!',
-                `<button onclick="farmerWin()">แจ้งลุงชาวนา</button>`
-            );
-        } else {
-            setDialog('ลีโอ', 'เดี๋ยวนะ... ตัวเลขดูแปลกๆ ลองเอา <span class="math-text">6 บวก 8</span> ก่อน แล้วค่อยเอาผลลัพธ์ไป <span class="math-text">คูณ 2</span> ดูอีกทีนะ',
-                `<button onclick="farmerStep3()">🔄 ลองใหม่</button>`
-            );
-        }
+    // ==========================================
+    // 🟣 ม.3 QUESTS
+    // ==========================================
+    function qM3_Astro() {
+        setScene('หอดูดาวโบราณ', 'bg-m3-astro', true, '🧙‍♀️');
+        setDialog('นักปราชญ์หญิง', 'ข้ากำลังสร้างกล้องโทรทรรศน์หักเหแสง เลนส์วัตถุมีความยาวโฟกัส <b>80 ซม.</b> เลนส์ตาความยาวโฟกัส <b>10 ซม.</b> ลำกล้องต้องยาวรวมกี่ ซม.?',
+            `<div class="formula">สูตรความยาวลำกล้องกล้องโทรทรรศน์: L = f_o + f_e</div>
+             <input type="number" id="ans-m3s">
+             <button onclick="checkM3Sci()">ตอบ (ซม.)</button>
+             <button onclick="qM3_Math()">➡️ ไปเควสตรีโกณมิติต่อ</button>`
+        );
+    }
+    function checkM3Sci() {
+        let v = document.getElementById('ans-m3s').value;
+        if(v == 90) {
+            addExp(50);
+            setDialog('นักปราชญ์หญิง', 'ถูกต้อง! 80 + 10 = <b>90 ซม.</b> ภาพดวงดาวชัดเจนมาก!', `<button onclick="hub()">กลับแผนที่</button>`);
+        } else { alert('เอาความยาวโฟกัสเลนส์ทั้งสองมาบวกกันได้เลยครับ'); }
     }
 
-    function farmerWin() {
-        updateStats(50);
-        setDialog('ลุงชาวนา', 'โอ้โห! เก่งจริงๆ พ่อหนุ่ม นี่ถ้าไม่ได้เอ็ง ลุงคงซื้อรั้วมาขาดแน่ๆ เอานี่ไปเป็นค่าตอบแทนนะ!',
-            `<button onclick="villageHub()">↩ กลับหมู่บ้าน</button>`
+    function qM3_Math() {
+        setDialog('นักปราชญ์หญิง', 'เควสคณิต ม.3: ช่วยวัดความสูงหอคอยที! ข้ายืนห่างฐานหอคอย <b>20 เมตร</b> และมองขึ้นไปด้วยมุมเงย <b>45 องศา</b> (กำหนดให้ tan 45° = 1) หอคอยสูงกี่เมตร?',
+            `<div class="formula">สูตร: tan(45°) = ความสูง ÷ ระยะห่าง (1 = h ÷ 20)</div>
+             <input type="number" id="ans-m3m">
+             <button onclick="checkM3Math()">ตอบ (เมตร)</button>`
         );
+    }
+    function checkM3Math() {
+        let v = document.getElementById('ans-m3m').value;
+        if(v == 20) {
+            addExp(50);
+            setDialog('นักปราชญ์หญิง', 'แม่นยำมาก! หอคอยนี้สูง <b>20 เมตร</b> พอดีเลย!', `<button onclick="hub()">กลับแผนที่</button>`);
+        } else { alert('1 = h ÷ 20 ดังนั้น h มีค่าเท่าไหร่?'); }
+    }
+
+    // ==========================================
+    // 🔴 ม.4 QUESTS
+    // ==========================================
+    function qM4_Castle() {
+        setScene('ป้อมปราการหน้าเมือง', 'bg-m4-castle', true, '💂‍♂️');
+        setDialog('แม่ทัพ', 'เราต้องยิงถุงเสบียงข้ามแม่น้ำด้วยเครื่องยิง! ถ้ายิงด้วยความเร็วแนวราบ <b>15 m/s</b> และถุงลอยในอากาศนาน <b>4 วินาที</b> ถุงเสบียงจะไปตกไกลกี่เมตร?',
+            `<div class="formula">วิทย์ ม.4 (โปรเจกไทล์แนวราบ): S_x = u_x × t</div>
+             <input type="number" id="ans-m4s">
+             <button onclick="checkM4Sci()">ตอบ (เมตร)</button>
+             <button onclick="qM4_Math()">➡️ ไปเควสพาราโบลาต่อ</button>`
+        );
+    }
+    function checkM4Sci() {
+        let v = document.getElementById('ans-m4s').value;
+        if(v == 60) {
+            addExp(50);
+            setDialog('แม่ทัพ', 'ยิงได้แม่นยำมาก! เสบียงข้ามไปตกฝั่งตรงข้ามที่ระยะ <b>60 เมตร</b> พอดี!', `<button onclick="hub()">กลับแผนที่</button>`);
+        } else { alert('เอาความเร็วแนวราบ (15) คูณ เวลา (4) ได้เท่าไหร่?'); }
+    }
+
+    function qM4_Math() {
+        setDialog('แม่ทัพ', 'เควสคณิต ม.4: สายน้ำจากกังหันพุ่งเป็นวิถีโค้งพาราโบลาตามสมการ <b>y = -(x - 5)² + 25</b> จุดสูงสุดของสายน้ำ (ค่า y สูงสุด) อยู่ที่ระดับความสูงกี่เมตร?',
+            `<div class="formula">รูปมาตรฐานพาราโบลา: y = a(x - h)² + k มีจุดยอดจุดสูงสุดที่ (h, k)</div>
+             <input type="number" id="ans-m4m">
+             <button onclick="checkM4Math()">ตอบ (เมตร)</button>`
+        );
+    }
+    function checkM4Math() {
+        let v = document.getElementById('ans-m4m').value;
+        if(v == 25) {
+            addExp(50);
+            setDialog('แม่ทัพ', 'ถูกต้อง! จุดสูงสุดค่า k คือ <b>25 เมตร</b> ท่านคือปราชญ์ที่แท้จริง!', `<button onclick="hub()">กลับแผนที่</button>`);
+        } else { alert('พิจารณาจากสมการ y = -(x-5)² + 25 ค่าสูงสุด k คือตัวเลขด้านหลังสุด'); }
     }
 </script>
 </body>
